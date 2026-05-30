@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CidadeAlerta | Póvoa de Varzim</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>CidadeAlerta | Póvoa de Varzim</h1>
+      <p>Participação cidadã para ocorrências municipais</p>
+    </div>
+    <div class="top-actions">
+      <button id="gpsBtn" class="btn primary">Usar GPS</button>
+      <button id="demoBtn" class="btn">Carregar demo</button>
+      <button id="clearBtn" class="btn danger">Limpar</button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="map-card">
+      <div class="card-head">
+        <div>
+          <h2>Mapa de ocorrências</h2>
+          <p>Clique no mapa para criar uma denúncia no local selecionado.</p>
+        </div>
+        <span id="coordBadge" class="coord-badge">Sem ponto selecionado</span>
+      </div>
+      <div id="map" aria-label="Mapa de ocorrências"></div>
+      <div class="legend" id="legend"></div>
+    </section>
+
+    <aside class="admin-card">
+      <div class="admin-head">
+        <div>
+          <h2>Painel administrativo</h2>
+          <p>Altere estados e veja os ícones reagirem no mapa.</p>
+        </div>
+        <button id="exportBtn" class="btn small">Exportar CSV</button>
+      </div>
+
+      <div class="filters">
+        <label>Tipo
+          <select id="categoryFilter" class="field">
+            <option value="all">Todos os tipos</option>
+          </select>
+        </label>
+        <label>Status
+          <select id="statusFilter" class="field">
+            <option value="all">Todos os estados</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="stats">
+        <div><strong id="totalCount">0</strong><span>Total</span></div>
+        <div><strong id="openCount">0</strong><span>Abertas</span></div>
+        <div><strong id="doneCount">0</strong><span>Resolvidas</span></div>
+        <div><strong id="rejectedCount">0</strong><span>Rejeitadas</span></div>
+        <div class="wide-stat"><strong id="avgResolutionTime">—</strong><span>Tempo médio de resolução</span></div>
+      </div>
+
+      <div id="occurrenceList" class="occurrence-list"></div>
+    </aside>
+  </main>
+
+  <dialog id="limitDialog" class="modal simple-modal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div>
+          <h2>Fora dos limites</h2>
+          <p>Este MVP aceita ocorrências apenas dentro dos limites aproximados do município da Póvoa de Varzim.</p>
+        </div>
+        <button type="button" id="closeLimitModal" class="icon-btn" aria-label="Fechar">×</button>
+      </div>
+      <div class="modal-actions">
+        <button type="button" id="okLimitModal" class="btn primary">Entendi</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="reportDialog" class="modal">
+    <form id="reportForm" method="dialog" class="modal-box">
+      <div class="modal-head">
+        <div>
+          <h2>Nova ocorrência</h2>
+          <p>Dados guardados apenas no navegador deste MVP.</p>
+        </div>
+        <button type="button" id="closeModal" class="icon-btn" aria-label="Fechar">×</button>
+      </div>
+
+      <div class="grid-2">
+        <label>Nome completo *
+          <input id="name" required placeholder="Ex.: Fernando Figueroa" />
+        </label>
+        <label>Telefone *
+          <input id="phone" required placeholder="Ex.: 9XXXXXXXX" />
+        </label>
+      </div>
+
+      <label>Categoria *
+        <select id="category" required></select>
+      </label>
+
+      <label>Descrição *
+        <textarea id="description" required rows="4" placeholder="Descreva o problema de forma objetiva"></textarea>
+      </label>
+
+      <label>Fotos/vídeos — até 3
+        <input id="attachments" type="file" multiple accept="image/*,video/*" />
+      </label>
+
+      <div class="modal-location">
+        <span>Local selecionado:</span>
+        <strong id="modalCoords">—</strong>
+      </div>
+
+      <!--<label class="checkbox-row">
+        <input id="sendEmail" type="checkbox" checked />
+        Abrir email para envio da denúncia para fernandobravofigueroa@gmail.com
+      </label>-->
+
+      <div class="modal-actions">
+        <button type="button" id="cancelModal" class="btn">Cancelar</button>
+        <button type="submit" class="btn primary">Registar ocorrência</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>
